@@ -11,6 +11,9 @@ export interface ProjectItem {
   metrics?: string;
   linkText?: string;
   liveUrl?: string;
+  role?: string;
+  status?: string;
+  notes?: string;
 }
 
 export interface VentureItem {
@@ -22,6 +25,8 @@ export interface VentureItem {
   actionText?: string;
   actionUrl?: string;
   details?: string;
+  role?: string;
+  status?: string;
 }
 
 export interface ArticleItem {
@@ -33,6 +38,7 @@ export interface ArticleItem {
   date: string;
   summary: string;
   content: string;
+  status?: string;
 }
 
 export const HERO_DATA = {
@@ -57,7 +63,7 @@ export const HERO_DATA = {
   ],
   socials: [
     { name: "LinkedIn", href: "https://linkedin.com/in/patrick-mulenga", icon: "linkedin" },
-    { name: "GitHub", href: "https://github.com/patrick-mulenga", icon: "github" },
+    { name: "GitHub", href: "https://github.com/Patrick-JR", icon: "github" },
     { name: "YouTube", href: "https://youtube.com/@techwithpatrick", icon: "youtube" },
     { name: "Tech with Patrick", href: "#tech-with-patrick", icon: "screen" }
   ]
@@ -70,32 +76,32 @@ export const ABOUT_DATA = {
   titleHighlight: "at heart.",
   paragraphs: [
     "I'm Patrick JR Mulenga, a software and AI engineer, researcher, entrepreneur and writer from Zambia.",
-    "My journey has been shaped by curiosity, independent learning and a desire to build solutions that create real value. I'm passionate about technology, automation and using AI to solve meaningful problems."
+    "My journey has been shaped by curiosity, independent learning and a desire to build solutions that create real value. I'm interested in software engineering, artificial intelligence, automation and the systems that connect technology with real human needs."
   ],
   roles: [
     {
       title: "Software Engineer",
-      description: "Building modern web and mobile applications.",
+      description: "Designing and building practical web applications and digital products.",
       icon: "code"
     },
     {
       title: "AI Engineer",
-      description: "Exploring AI agents, automation and intelligent systems.",
+      description: "Exploring AI agents, LLM integrations, automation and intelligent systems.",
       icon: "brain"
     },
     {
       title: "Researcher",
-      description: "Studying emerging technologies and their real-world impact.",
+      description: "Studying emerging technologies and thinking about their real-world impact.",
       icon: "search"
     },
     {
       title: "Entrepreneur & Founder",
-      description: "Building UpleX AI and other solution-driven ventures.",
+      description: "Building UpleX AI and working on products and ventures with practical purpose.",
       icon: "rocket"
     },
     {
       title: "Writer",
-      description: "Sharing ideas, insights and lessons from the journey.",
+      description: "Using writing to explore ideas, communicate what I learn and reflect on the journey.",
       icon: "book"
     }
   ]
@@ -107,44 +113,50 @@ export const PROJECTS_DATA: ProjectItem[] = [
     name: "ZIJCMS",
     tag: "Public Sector",
     tagColor: "bg-teal-500/20 text-teal-300 border-teal-500/40",
-    description: "Zambia Integrated Justice & Correctional Management System. A unified justice management platform connecting police, judiciary and correctional services.",
+    description: "A unified justice management platform concept connecting police, judiciary and correctional services.",
     image: "/src/assets/images/zijcms_dashboard_preview_1791242025994.jpg",
-    fullOverview: "The Zambia Integrated Justice & Correctional Management System (ZIJCMS) addresses critical fragmentation across justice sector agencies. It unifies docket tracking, court hearing scheduling, inmate registration, and automated status notifications across police departments, judicial registries, and correctional facilities.",
-    techStack: ["React", "TypeScript", "Node.js", "PostgreSQL", "Role-Based Access Control", "Encrypted Document Vault"],
-    metrics: "Integrates 3 key government ministries with real-time status synchronization and secure audit logging."
+    fullOverview: "The Zambia Integrated Justice & Correctional Management System is a proposed digital platform built around one connected justice flow. The concept explores how case, custody and correctional information could move through a more coherent digital system instead of remaining fragmented across institutions.",
+    role: "Concept, product thinking and prototype development",
+    status: "Prototype",
+    techStack: ["Frontend prototyping", "Data modelling", "Role-based workflow design"],
+    notes: "This is a prototype and policy-facing concept, not a deployed national system."
   },
   {
     id: "smart-national-planning",
     name: "Smart National Planning Portal",
     tag: "Civic Tech",
     tagColor: "bg-cyan-500/20 text-cyan-300 border-cyan-500/40",
-    description: "AI-powered platform for managing national development and CDF project data with search and AI insights.",
+    description: "An AI-assisted platform for organising national development and CDF project information.",
     image: "/src/assets/images/smart_planning_preview_1791242039275.jpg",
-    fullOverview: "A national development intelligence portal built to provide transparency and actionable monitoring for Constituency Development Fund (CDF) and macro-development projects. Includes AI semantic search and anomaly detection on budget allocations.",
-    techStack: ["Next.js", "Python / FastAPI", "AI Semantic Search", "Vector Embeddings", "Data Visualization", "GIS Mapping"],
-    metrics: "Enables multi-constituency data tracking, AI budget variance flags, and citizen inquiry interfaces."
+    fullOverview: "A civic technology concept for turning large development documents into structured, searchable information. The project explores document extraction with OpenAI, SQLite-based storage, project monitoring, and source-cited question answering so users can ask about the information rather than manually search through long documents.",
+    role: "Builder and product designer",
+    status: "Prototype / ongoing build",
+    techStack: ["OpenAI", "SQLite", "Document extraction", "Source-cited Q&A", "Web application"],
+    notes: "The current work is a prototype intended to demonstrate the product direction."
   },
   {
     id: "rabtrash-kk",
     name: "Rabtrash KK",
     tag: "Logistics",
     tagColor: "bg-sky-500/20 text-sky-300 border-sky-500/40",
-    description: "Waste collection platform connecting households and businesses with collection companies and drivers.",
+    description: "A waste collection and routing platform concept connecting customers, collectors and operational planning.",
     image: "/src/assets/images/rabtrash_map_preview_1791242048186.jpg",
-    fullOverview: "An on-demand smart logistics platform revolutionizing urban waste management. Households request timely pick-ups while private waste companies optimize vehicle routes, track driver dispatch in real-time, and automate monthly recurring invoicing.",
-    techStack: ["React Native", "Geolocation & Routing", "Express.js", "Firebase Realtime DB", "Mobile Money API"],
-    metrics: "Reduced pickup turnaround delays by over 40% with automated cluster routing."
+    fullOverview: "Rabtrash KK explores how waste collection could be coordinated through a digital platform. The idea brings service requests, collection operations and route planning into one workflow so that waste pickup becomes easier to manage for both customers and collection businesses.",
+    role: "Product concept and software design",
+    status: "Concept / prototype",
+    notes: "Routing, dispatch, payments and operational workflows are part of the product direction and should be presented according to what is actually implemented."
   },
   {
     id: "schoontex",
     name: "Schoontex",
     tag: "Education",
     tagColor: "bg-teal-500/20 text-teal-300 border-teal-500/40",
-    description: "School management system for student records, fees, receipts and administration.",
+    description: "A school management software concept for student records, fees, receipts and administration.",
     image: "/src/assets/images/schoontex_school_preview_1791242057777.jpg",
-    fullOverview: "A comprehensive institutional ERP engineered specifically for primary and secondary educational institutions. Automates fee payments, generates digital tamper-evident receipts, and streamlines academic grade books and student attendance.",
-    techStack: ["React", "Tailwind CSS", "REST API", "PDF Generation Engine", "SMS Notification Gateway"],
-    metrics: "Deployed across multiple schools to process tens of thousands in fee reconciliations without manual paper ledgers."
+    fullOverview: "Schoontex is a school software concept focused on making routine school administration easier to manage digitally. The direction includes student records, fee tracking, receipts and core school workflows in a system that can grow with a school.",
+    role: "Product concept and software development",
+    status: "Concept / MVP development",
+    notes: "Only publish specific school deployments or integrations once they are verified."
   }
 ];
 
@@ -152,33 +164,39 @@ export const VENTURES_DATA: VentureItem[] = [
   {
     id: "uplex-ai",
     name: "UpleX AI",
-    description: "AI, intelligent automation, and digital business systems.",
+    description: "AI, intelligent automation and smart business systems.",
     logoType: "uplex",
     actionText: "Visit Website",
     actionUrl: "https://www.uplexai.com",
-    details: "UpleX AI develops autonomous agent workflows, enterprise LLM integration architectures, and bespoke business automation pipelines helping forward-thinking enterprises save thousands of manual operational hours."
+    role: "Founder & CEO",
+    status: "Building",
+    details: "UpleX AI helps businesses understand where AI can actually fit, then designs and builds practical AI agents, automation and smart digital systems. The goal is to move businesses from ideas about AI to useful systems they can actually operate."
   },
   {
     id: "buyshare",
     name: "BuyShare",
-    description: "A platform for buying and selling products and services, built for a simple and trusted experience.",
+    description: "A co-founded application for buying and selling products and services.",
     logoType: "buyshare",
     badges: [
       { label: "Co-founder", variant: "blue" },
-      { label: "In Development", variant: "green" }
+      { label: "Near Completion", variant: "green" }
     ],
-    details: "BuyShare is an upcoming peer-to-peer commerce and escrow-backed exchange engine engineered to provide secure transaction guarantees, merchant reputation scores, and streamlined local payment fulfillment."
+    role: "Co-founder & Product Builder",
+    status: "Near completion",
+    details: "BuyShare is a product Patrick is building with a friend. The application is approaching completion, and the portfolio should be updated with its final product story, screenshots and live link once the release is ready."
   },
   {
     id: "gifted-life",
     name: "Gifted Life",
-    description: "An organisation and app empowering young people through mentorship, skills and opportunity.",
+    description: "An organisation and digital platform centred on talent, growth, mentorship and opportunity.",
     logoType: "giftedlife",
     badges: [
       { label: "Founder", variant: "blue" },
-      { label: "In Development", variant: "green" }
+      { label: "Building", variant: "green" }
     ],
-    details: "Gifted Life is dedicated to bridging the digital divide for Zambian youth. By pairing aspiring builders with vetted tech and business mentors, Gifted Life accelerates vocational skill acquisition and tech career pathways."
+    role: "Founder",
+    status: "Building",
+    details: "Gifted Life is a people-focused initiative built around helping people discover, develop and express their gifts. The wider initiative includes the Gifted Life app, which is being shaped as a place where people can showcase their talents, build a presence and connect with communities and opportunities."
   }
 ];
 
@@ -186,7 +204,7 @@ export const SKILLS_DATA = [
   {
     category: "Software Development",
     icon: "code",
-    skills: "HTML, CSS, JavaScript, Full-stack, Web Applications"
+    skills: "HTML, CSS, JavaScript, Python, Full-stack development, Web applications"
   },
   {
     category: "AI & Automation",
@@ -211,30 +229,45 @@ export const ARTICLES_DATA: ArticleItem[] = [
     tag: "Technology",
     title: "The Real Power of AI Isn't in the Models",
     image: "/src/assets/images/article_power_of_ai_1791242071605.jpg",
-    readTime: "5 min read",
-    date: "October 2024",
-    summary: "Why model benchmarks alone don't create enterprise value: the true leverage lies in agentic workflows, contextual memory, and robust integration pipelines.",
-    content: "Every month brings a new frontier model benchmark with slight gains on abstract academic evaluations. Yet in enterprise and real-world deployment, the gap between model capability and practical value remains enormous.\n\nThe real breakthrough isn't simply querying a larger parameter model—it is building intelligent harnesses: structured agent workflows, resilient error handling, domain-specific memory layers, and deep business data integrations.\n\nWhen we treat AI as an autonomous collaborator embedded inside operational systems rather than an isolated conversational novelty, real leverage begins."
+    readTime: "5 min",
+    date: "Writing draft",
+    status: "Draft",
+    summary: "A reflection on why useful AI depends on the systems around the model, not only the model itself.",
+    content: "Every new model creates another wave of excitement. But the part that interests me most is what happens after the model is connected to real work.
+
+Useful AI needs context, reliable workflows, clear boundaries and a way to interact with the systems people already use. That is where engineering becomes important.
+
+I keep coming back to a simple idea: a powerful model is only one part of a useful product. The real value appears when intelligence is connected to a problem that actually matters."
   },
   {
     id: "build-meaningful-life",
     tag: "Philosophy",
     title: "What It Means to Build a Meaningful Life",
     image: "/src/assets/images/article_meaningful_life_1791242083184.jpg",
-    readTime: "7 min read",
-    date: "September 2024",
-    summary: "Reflections on self-directed learning, compounding craftsmanship, and orienting one's energy around solving problems that genuinely matter.",
-    content: "In a world saturated with ephemeral metrics and performative milestones, clarity is rare. Building a meaningful life requires deliberate detachment from superficial prestige.\n\nFor me, meaning comes from curiosity, disciplined craft, and the direct impact of technology on people's everyday realities. Whether writing code at midnight or designing an educational initiative, the question is always the same: does this reduce friction, empower someone else, and withstand the test of time?"
+    readTime: "7 min",
+    date: "Writing draft",
+    status: "Draft",
+    summary: "A personal reflection on curiosity, craftsmanship, learning and building things that matter.",
+    content: "I think a meaningful life is less about collecting impressive labels and more about becoming useful through the things we learn and build.
+
+For me, curiosity is a major part of that process. It pushes me to learn, question, experiment and keep moving even when the path is not obvious.
+
+Building meaningful things also means accepting that not everything will work. What matters is learning from the work, improving the craft and choosing problems worth spending your time on."
   },
   {
     id: "future-of-work-africa",
     tag: "Research",
     title: "AI and the Future of Work in Africa",
     image: "/src/assets/images/article_future_work_africa_1791242092829.jpg",
-    readTime: "6 min read",
-    date: "August 2024",
-    summary: "Analyzing leapfrog opportunities in African talent, automated public infrastructure, and localized intelligence systems.",
-    content: "Africa stands at a unique technological inflection point. Just as mobile money bypassed traditional branch banking infrastructure across the continent, artificial intelligence offers an unprecedented opportunity to leapfrog legacy administrative and institutional bottlenecks.\n\nBy democratizing high-level engineering capabilities and providing intelligent automation for healthcare triage, civic planning, and agricultural supply chains, African developers are poised to become architects of localized, high-impact intelligent systems."
+    readTime: "6 min",
+    date: "Writing draft",
+    status: "Draft",
+    summary: "Exploring what AI could mean for African talent, businesses, institutions and local innovation.",
+    content: "AI will affect work differently across different places. In Africa, the question is not only which jobs change, but also what new products, businesses and systems become possible.
+
+There is an opportunity for local builders to work on local problems with globally capable tools. That means building for the realities of our markets, languages, institutions and infrastructure rather than simply importing someone else's assumptions.
+
+The interesting question is not whether Africa will use AI. It is what Africa will build with it."
   }
 ];
 
@@ -251,7 +284,7 @@ export const CONTACT_DATA = {
   links: [
     { label: "Email", value: "patrick@uplexai.com", href: "mailto:patrick@uplexai.com", type: "email" },
     { label: "LinkedIn", value: "linkedin.com/in/patrick-mulenga", href: "https://linkedin.com/in/patrick-mulenga", type: "linkedin" },
-    { label: "GitHub", value: "github.com/patrick-mulenga", href: "https://github.com/patrick-mulenga", type: "github" },
+    { label: "GitHub", value: "github.com/Patrick-JR", href: "https://github.com/Patrick-JR", type: "github" },
     { label: "YouTube", value: "Tech with Patrick", href: "https://youtube.com/@techwithpatrick", type: "youtube" },
     { label: "UpleX AI", value: "www.uplexai.com", href: "https://www.uplexai.com", type: "website" }
   ]
