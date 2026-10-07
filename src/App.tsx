@@ -19,14 +19,12 @@ import { ArticleModal } from './components/ArticleModal';
 import { ConnectModal } from './components/ConnectModal';
 import { AboutModal } from './components/AboutModal';
 import { TechModal } from './components/TechModal';
+import { SectionOverviewModal } from './components/SectionOverviewModal';
 
 import {
   ProjectItem,
   VentureItem,
-  ArticleItem,
-  PROJECTS_DATA,
-  VENTURES_DATA,
-  ARTICLES_DATA
+  ArticleItem
 } from './data/portfolioData';
 
 function PortfolioApp() {
@@ -38,74 +36,62 @@ function PortfolioApp() {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isTechOpen, setIsTechOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [overviewType, setOverviewType] = useState<'projects' | 'ventures' | 'writing' | null>(null);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const openProject = (project: ProjectItem) => {
+    setOverviewType(null);
+    setSelectedProject(project);
+  };
+
+  const openVenture = (venture: VentureItem) => {
+    setOverviewType(null);
+    setSelectedVenture(venture);
+  };
+
+  const openArticle = (article: ArticleItem) => {
+    setOverviewType(null);
+    setSelectedArticle(article);
   };
 
   return (
-    <div
-      className={`min-h-screen selection:bg-cyan-500/30 selection:text-cyan-300 relative pb-16 lg:pb-0 transition-colors duration-200 ${
-        isDark ? 'bg-[#030712] text-slate-100' : 'bg-white text-slate-900'
-      }`}
-    >
-      {/* Top Navigation */}
+    <div className={`min-h-screen selection:bg-cyan-500/30 selection:text-cyan-300 relative pb-16 lg:pb-0 transition-colors duration-200 ${
+      isDark ? 'bg-[#030712] text-slate-100' : 'bg-white text-slate-900'
+    }`}>
       <Navbar onOpenConnect={() => setIsConnectOpen(true)} />
 
-      {/* Main Content Sections */}
       <main>
-        {/* Hero Section - Always remains dark */}
         <Hero
           onExploreWork={() => scrollToSection('projects')}
           onGetInTouch={() => setIsConnectOpen(true)}
           onOpenTechPatrick={() => setIsTechOpen(true)}
         />
-
-        {/* 01. About Me - Background white in light mode, cards remain black */}
         <AboutSection onLearnMore={() => setIsAboutOpen(true)} />
-
-        {/* 02. Featured Projects - Background white in light mode, cards remain black */}
         <ProjectsSection
-          onSelectProject={(project) => setSelectedProject(project)}
-          onViewAllProjects={() => setSelectedProject(PROJECTS_DATA[0])}
+          onSelectProject={openProject}
+          onViewAllProjects={() => setOverviewType('projects')}
         />
-
-        {/* 03. Ventures - Background white in light mode, cards remain black */}
         <VenturesSection
-          onSelectVenture={(venture) => setSelectedVenture(venture)}
-          onViewAllVentures={() => setSelectedVenture(VENTURES_DATA[0])}
+          onSelectVenture={openVenture}
+          onViewAllVentures={() => setOverviewType('ventures')}
         />
-
-        {/* 04. Skills & Technologies - Background white in light mode, cards remain black */}
         <SkillsSection />
-
-        {/* 05. Writing & Publications - Background white in light mode, cards remain black */}
         <WritingSection
-          onSelectArticle={(article) => setSelectedArticle(article)}
-          onExploreWriting={() => setSelectedArticle(ARTICLES_DATA[0])}
+          onSelectArticle={openArticle}
+          onExploreWriting={() => setOverviewType('writing')}
         />
-
-        {/* 06. Tech with Patrick - Background white in light mode, card remains black */}
-        <TechWithPatrickSection
-          onVisitChannel={() => setIsTechOpen(true)}
-        />
-
-        {/* 07. Get In Touch - Background white in light mode, link icons black */}
-        <ContactSection
-          onOpenConnectModal={() => setIsConnectOpen(true)}
-        />
+        <TechWithPatrickSection onVisitChannel={() => setIsTechOpen(true)} />
+        <ContactSection onOpenConnectModal={() => setIsConnectOpen(true)} />
       </main>
 
-      {/* Footer - White in light mode, link icons black */}
       <Footer />
 
-      {/* Mobile Bottom Navigation Dock */}
       <MobileBottomNav onOpenMore={() => setIsMoreOpen(true)} />
 
-      {/* Mobile "More" Drawer */}
       <MoreSheet
         isOpen={isMoreOpen}
         onClose={() => setIsMoreOpen(false)}
@@ -114,38 +100,34 @@ function PortfolioApp() {
         onOpenTech={() => setIsTechOpen(true)}
       />
 
-      {/* Modals & Dialogs */}
+      <SectionOverviewModal
+        type={overviewType}
+        onClose={() => setOverviewType(null)}
+        onSelectProject={openProject}
+        onSelectVenture={openVenture}
+        onSelectArticle={openArticle}
+        onOpenConnect={() => setIsConnectOpen(true)}
+      />
+
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
-        onOpenConnect={() => {
-          setSelectedProject(null);
-          setIsConnectOpen(true);
-        }}
+        onOpenConnect={() => setIsConnectOpen(true)}
       />
 
       <VentureModal
         venture={selectedVenture}
         onClose={() => setSelectedVenture(null)}
-        onOpenConnect={() => {
-          setSelectedVenture(null);
-          setIsConnectOpen(true);
-        }}
+        onOpenConnect={() => setIsConnectOpen(true)}
       />
 
       <ArticleModal
         article={selectedArticle}
         onClose={() => setSelectedArticle(null)}
-        onOpenConnect={() => {
-          setSelectedArticle(null);
-          setIsConnectOpen(true);
-        }}
+        onOpenConnect={() => setIsConnectOpen(true)}
       />
 
-      <ConnectModal
-        isOpen={isConnectOpen}
-        onClose={() => setIsConnectOpen(false)}
-      />
+      <ConnectModal isOpen={isConnectOpen} onClose={() => setIsConnectOpen(false)} />
 
       <AboutModal
         isOpen={isAboutOpen}
@@ -156,10 +138,7 @@ function PortfolioApp() {
         }}
       />
 
-      <TechModal
-        isOpen={isTechOpen}
-        onClose={() => setIsTechOpen(false)}
-      />
+      <TechModal isOpen={isTechOpen} onClose={() => setIsTechOpen(false)} />
     </div>
   );
 }
