@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: #030712;
+    color: #f1f5f9;
+    color-scheme: dark;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  body {
+    background-color: #030712;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease;
+  }
+
+  ::selection {
+    background-color: rgba(6, 182, 212, 0.3);
+    color: #22d3ee;
+  }
+}
+
+.font-mono-tag {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom glow helpers */
+.neon-glow-cyan {
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.45);
+}
+
+.card-glow-subtle {
+  box-shadow: 0 4px 20px -2px rgba(6, 182, 212, 0.05);
+}
+
+.card-glow-hover:hover {
+  box-shadow: 0 8px 30px -4px rgba(6, 182, 212, 0.15);
+}
+
+/* ========================================================
+   LIGHT MODE RULES SPECIFIED BY USER:
+   1. Navigation is white, link icons are black.
+   2. Hero section DOES NOT change color (remains dark).
+   3. Background of rest of app changes to white.
+   4. Cards remain black as they are.
+   ======================================================== */
+
+html.light {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+html.light body {
+  background-color: #ffffff;
+}
+
+/* Hero section stays completely dark in light mode */
+html.light #home {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+}
+
+html.light #home h1 {
+  color: #ffffff !important;
+}
+
+html.light #home .text-white {
+  color: #ffffff !important;
+}
+
+html.light #home .text-slate-300 {
+  color: #cbd5e1 !important;
+}
+
+html.light #home .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* Rest of the app background becomes white */
+html.light main > section:not(#home) {
+  background-color: #ffffff !important;
+}
+
+html.light #about,
+html.light #projects,
+html.light #ventures,
+html.light #skills,
+html.light #writing,
+html.light #tech-with-patrick,
+html.light #contact {
+  background-color: #ffffff !important;
+}
+
+/* Section headings outside cards become dark text in light mode */
+html.light #about > div > div > div:first-child h2,
+html.light #projects > div > div:first-child h2,
+html.light #ventures > div > div:first-child h2,
+html.light #skills > div > div:first-child h2,
+html.light #writing > div > div > div:first-child h2,
+html.light #contact h2,
+html.light #contact h3 {
+  color: #0f172a !important;
+}
+
+html.light #about > div > div > div:first-child p,
+html.light #projects > div > div:first-child p,
+html.light #ventures > div > div:first-child p,
+html.light #skills > div > div:first-child p,
+html.light #writing > div > div > div:first-child p,
+html.light #contact p,
+html.light #contact ul li {
+  color: #334155 !important;
+}
+
+/* External links outside cards */
+html.light #projects button span,
+html.light #ventures button span {
+  color: #0f172a !important;
+}
+
+html.light #projects button svg,
+html.light #ventures button svg {
+  color: #0f172a !important;
+}
+
+/* Buttons outside cards (e.g. Learn More, Get in Touch) on white background */
+html.light #about button,
+html.light #writing button,
+html.light #contact button:not([title]) {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light #about button:hover,
+html.light #writing button:hover,
+html.light #contact button:not([title]):hover {
+  border-color: #0891b2 !important;
+  color: #0891b2 !important;
+}
+
+/* CARDS REMAIN BLACK AS THEY ARE */
+html.light .bg-\[\#050b18\],
+html.light .bg-\[\#050b18\]\/80,
+html.light .bg-\[\#050b18\]\/90,
+html.light .bg-\[\#071126\],
+html.light .bg-\[\#060c1c\] {
+  background-color: #050b18 !important;
+}
+
+html.light #about .bg-\[\#050b18\]\/80 h3,
+html.light #projects .group h3,
+html.light #ventures .group h3,
+html.light #skills .card-glow-hover h3,
+html.light #writing .group h3,
+html.light #tech-with-patrick h2,
+html.light #tech-with-patrick h3,
+html.light .bg-\[\#060c1c\] h2,
+html.light .bg-\[\#060c1c\] h3 {
+  color: #ffffff !important;
+}
+
+html.light #about .bg-\[\#050b18\]\/80 p,
+html.light #projects .group p,
+html.light #ventures .group p,
+html.light #skills .card-glow-hover p,
+html.light #tech-with-patrick p,
+html.light .bg-\[\#060c1c\] p {
+  color: #94a3b8 !important;
+}
+
+/* Navigation is white and link icons are black */
+html.light header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light header nav a {
+  color: #0f172a !important;
+}
+
+html.light header nav a:hover {
+  color: #0891b2 !important;
+}
+
+html.light header button svg {
+  color: #000000 !important;
+}
+
+/* Footer in light mode */
+html.light footer {
+  background-color: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+html.light footer .text-white {
+  color: #0f172a !important;
+}
+
+html.light footer nav a {
+  color: #334155 !important;
+}
+
+html.light footer nav a:hover {
+  color: #000000 !important;
+}
+
+/* Link icons are black in light mode */
+html.light footer a svg,
+html.light #contact ul li a svg {
+  color: #000000 !important;
+}
+
+/* Mobile bottom nav is white and icons are black */
+html.light nav[aria-label="Mobile Bottom Navigation"] {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light nav[aria-label="Mobile Bottom Navigation"] button {
+  color: #000000 !important;
+}
+
+html.light nav[aria-label="Mobile Bottom Navigation"] button.text-cyan-400 {
+  color: #0891b2 !important;
+}
