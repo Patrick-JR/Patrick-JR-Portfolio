@@ -233,11 +233,11 @@ export const ARTICLES_DATA: ArticleItem[] = [
     date: "Writing draft",
     status: "Draft",
     summary: "A reflection on why useful AI depends on the systems around the model, not only the model itself.",
-    content: "Every new model creates another wave of excitement. But the part that interests me most is what happens after the model is connected to real work.
+    content: `Every new model creates another wave of excitement. But the part that interests me most is what happens after the model is connected to real work.
 
 Useful AI needs context, reliable workflows, clear boundaries and a way to interact with the systems people already use. That is where engineering becomes important.
 
-I keep coming back to a simple idea: a powerful model is only one part of a useful product. The real value appears when intelligence is connected to a problem that actually matters."
+I keep coming back to a simple idea: a powerful model is only one part of a useful product. The real value appears when intelligence is connected to a problem that actually matters.`
   },
   {
     id: "build-meaningful-life",
@@ -248,11 +248,11 @@ I keep coming back to a simple idea: a powerful model is only one part of a usef
     date: "Writing draft",
     status: "Draft",
     summary: "A personal reflection on curiosity, craftsmanship, learning and building things that matter.",
-    content: "I think a meaningful life is less about collecting impressive labels and more about becoming useful through the things we learn and build.
+    content: `I think a meaningful life is less about collecting impressive labels and more about becoming useful through the things we learn and build.
 
 For me, curiosity is a major part of that process. It pushes me to learn, question, experiment and keep moving even when the path is not obvious.
 
-Building meaningful things also means accepting that not everything will work. What matters is learning from the work, improving the craft and choosing problems worth spending your time on."
+Building meaningful things also means accepting that not everything will work. What matters is learning from the work, improving the craft and choosing problems worth spending your time on.`
   },
   {
     id: "future-of-work-africa",
@@ -263,11 +263,11 @@ Building meaningful things also means accepting that not everything will work. W
     date: "Writing draft",
     status: "Draft",
     summary: "Exploring what AI could mean for African talent, businesses, institutions and local innovation.",
-    content: "AI will affect work differently across different places. In Africa, the question is not only which jobs change, but also what new products, businesses and systems become possible.
+    content: `AI will affect work differently across different places. In Africa, the question is not only which jobs change, but also what new products, businesses and systems become possible.
 
 There is an opportunity for local builders to work on local problems with globally capable tools. That means building for the realities of our markets, languages, institutions and infrastructure rather than simply importing someone else's assumptions.
 
-The interesting question is not whether Africa will use AI. It is what Africa will build with it."
+The interesting question is not whether Africa will use AI. It is what Africa will build with it.`
   }
 ];
 

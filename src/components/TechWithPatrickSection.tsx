@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Youtube } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 interface TechWithPatrickSectionProps {
   onVisitChannel: () => void;
@@ -8,12 +9,14 @@ interface TechWithPatrickSectionProps {
 export const TechWithPatrickSection: React.FC<TechWithPatrickSectionProps> = ({
   onVisitChannel,
 }) => {
+  const { isDark } = useTheme();
+
   return (
     <section id="tech-with-patrick" className="py-20 lg:py-28 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Large Container Card */}
-        <div className="relative rounded-3xl bg-[#050b18]/90 border border-cyan-950/80 overflow-hidden shadow-2xl shadow-black/60">
+        {/* Large Container Card (Cards remain black as requested) */}
+        <div className="relative rounded-3xl bg-[#050b18] border border-cyan-950/80 overflow-hidden shadow-2xl shadow-black/60">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 lg:p-12">
             
             {/* Left Content */}

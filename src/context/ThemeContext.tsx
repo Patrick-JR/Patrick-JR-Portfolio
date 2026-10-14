@@ -25,10 +25,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.remove('dark');
       root.classList.add('light');
       root.style.colorScheme = 'light';
+      document.body.style.backgroundColor = '#ffffff';
+      document.body.style.color = '#0f172a';
     } else {
       root.classList.remove('light');
       root.classList.add('dark');
       root.style.colorScheme = 'dark';
+      document.body.style.backgroundColor = '#030712';
+      document.body.style.color = '#f1f5f9';
     }
     localStorage.setItem('pm_portfolio_theme', theme);
   }, [theme]);

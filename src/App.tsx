@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { RouterProvider, useRouter } from './context/RouterContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -22,62 +23,57 @@ import ContactPage from './pages/ContactPage';
 
 function HomePreview() {
   const { isDark } = useTheme();
+  const { navigate, scrollToSection } = useRouter();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
-  const go = (path: string) => {
-    window.location.href = path;
-  };
-
   return (
-    <div className={`min-h-screen selection:bg-cyan-500/30 selection:text-cyan-300 relative pb-16 lg:pb-0 transition-colors duration-200 ${isDark ? 'bg-[#030712] text-slate-100' : 'bg-white text-slate-900'}`}>
-      <Navbar onOpenConnect={() => go('/contact')} />
+    <div
+      className={`min-h-screen selection:bg-cyan-500/30 selection:text-cyan-300 relative pb-16 lg:pb-0 transition-colors duration-200 ${
+        isDark ? 'bg-[#030712] text-slate-100' : 'bg-white text-slate-900'
+      }`}
+    >
+      <Navbar onOpenConnect={() => scrollToSection('contact')} />
       <main>
         <Hero
-          onExploreWork={() => go('/projects')}
-          onGetInTouch={() => go('/contact')}
-          onOpenTechPatrick={() => go('/tech-with-patrick')}
+          onExploreWork={() => scrollToSection('projects')}
+          onGetInTouch={() => scrollToSection('contact')}
+          onOpenTechPatrick={() => scrollToSection('tech-with-patrick')}
         />
-        <AboutSection onLearnMore={() => go('/about')} />
+        <AboutSection onLearnMore={() => navigate('/about')} />
         <ProjectsSection
-          onSelectProject={() => go('/projects')}
-          onViewAllProjects={() => go('/projects')}
+          onSelectProject={() => navigate('/projects')}
+          onViewAllProjects={() => navigate('/projects')}
         />
         <VenturesSection
-          onSelectVenture={() => go('/ventures')}
-          onViewAllVentures={() => go('/ventures')}
+          onSelectVenture={() => navigate('/ventures')}
+          onViewAllVentures={() => navigate('/ventures')}
         />
         <SkillsSection />
         <WritingSection
-          onSelectArticle={() => go('/writing')}
-          onExploreWriting={() => go('/writing')}
+          onSelectArticle={() => navigate('/writing')}
+          onExploreWriting={() => navigate('/writing')}
         />
-        <TechWithPatrickSection onVisitChannel={() => go('/tech-with-patrick')} />
-        <ContactSection onOpenConnectModal={() => go('/contact')} />
+        <TechWithPatrickSection onVisitChannel={() => navigate('/tech-with-patrick')} />
+        <ContactSection onOpenConnectModal={() => scrollToSection('contact')} />
       </main>
       <Footer />
       <MobileBottomNav onOpenMore={() => setIsMoreOpen(true)} />
       <MoreSheet
         isOpen={isMoreOpen}
         onClose={() => setIsMoreOpen(false)}
-        onOpenConnect={() => go('/contact')}
-        onOpenAbout={() => go('/about')}
-        onOpenTech={() => go('/tech-with-patrick')}
+        onOpenConnect={() => scrollToSection('contact')}
+        onOpenAbout={() => scrollToSection('about')}
+        onOpenTech={() => scrollToSection('tech-with-patrick')}
       />
     </div>
   );
 }
 
 function RouterView() {
-  const [path, setPath] = useState(window.location.pathname);
+  const { path } = useRouter();
 
   React.useEffect(() => {
-    const onPop = () => setPath(window.location.pathname);
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
-  }, []);
-
-  React.useEffect(() => {
-    const titles: Record<string,string> = {
+    const titles: Record<string, string> = {
       '/': 'Patrick JR Mulenga | Software & AI Engineer',
       '/about': 'About Patrick JR Mulenga',
       '/projects': 'Projects | Patrick JR Mulenga',
@@ -88,7 +84,6 @@ function RouterView() {
       '/contact': 'Contact | Patrick JR Mulenga'
     };
     document.title = titles[path] || titles['/'];
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [path]);
 
   if (path === '/about') return <AboutPage />;
@@ -102,5 +97,11 @@ function RouterView() {
 }
 
 export default function App() {
-  return <ThemeProvider><RouterView /></ThemeProvider>;
+  return (
+    <ThemeProvider>
+      <RouterProvider>
+        <RouterView />
+      </RouterProvider>
+    </ThemeProvider>
+  );
 }

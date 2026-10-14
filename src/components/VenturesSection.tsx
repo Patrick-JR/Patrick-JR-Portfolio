@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { VENTURES_DATA, VentureItem } from '../data/portfolioData';
 import { UpleXLogo, BuyShareLogo, GiftedLifeLogo } from './Icons';
+import { useTheme } from '../context/ThemeContext';
 
 interface VenturesSectionProps {
   onSelectVenture: (venture: VentureItem) => void;
@@ -12,6 +13,8 @@ export const VenturesSection: React.FC<VenturesSectionProps> = ({
   onSelectVenture,
   onViewAllVentures,
 }) => {
+  const { isDark } = useTheme();
+
   const renderLogo = (type: VentureItem['logoType']) => {
     switch (type) {
       case 'uplex':
@@ -30,13 +33,13 @@ export const VenturesSection: React.FC<VenturesSectionProps> = ({
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-12">
           <div className="space-y-3 max-w-2xl">
-            <div className="font-mono-tag text-cyan-400 text-xs sm:text-sm tracking-wider font-medium">
+            <div className="font-mono-tag text-cyan-500 text-xs sm:text-sm tracking-wider font-medium">
               // 03. VENTURES
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            <h2 className={`text-3xl sm:text-4xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Building businesses for a smarter future.
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+            <p className={`text-sm sm:text-base leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Through UpleX AI and other ventures, I'm working on solutions that use technology, automation and innovation to create real-world value.
             </p>
           </div>
@@ -44,7 +47,9 @@ export const VenturesSection: React.FC<VenturesSectionProps> = ({
           <div className="shrink-0">
             <button
               onClick={onViewAllVentures}
-              className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
+              className={`group inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-cyan-600 hover:text-cyan-700 font-bold'
+              }`}
             >
               <span>View All Ventures</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -52,16 +57,16 @@ export const VenturesSection: React.FC<VenturesSectionProps> = ({
           </div>
         </div>
 
-        {/* 3 Ventures Grid */}
+        {/* 3 Ventures Grid (Cards remain black as requested) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {VENTURES_DATA.map((venture) => (
             <div
               key={venture.id}
               onClick={() => onSelectVenture(venture)}
-              className={`group rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer border ${
+              className={`group rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer border shadow-lg shadow-black/50 ${
                 venture.id === 'uplex-ai'
                   ? 'bg-gradient-to-b from-[#081832] to-[#040916] border-cyan-500/40 hover:border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.15)]'
-                  : 'bg-[#050b18]/80 hover:bg-[#071126] border-cyan-950/70 hover:border-cyan-500/40'
+                  : 'bg-[#050b18] hover:bg-[#071126] border-cyan-950/70 hover:border-cyan-500/40'
               }`}
             >
               <div className="space-y-5">
@@ -79,7 +84,7 @@ export const VenturesSection: React.FC<VenturesSectionProps> = ({
                 </div>
               </div>
 
-              {/* Card Footer: Either Link or Badges */}
+              {/* Card Footer */}
               <div className="pt-6">
                 {venture.actionText ? (
                   <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 group-hover:text-cyan-300 transition-colors">
