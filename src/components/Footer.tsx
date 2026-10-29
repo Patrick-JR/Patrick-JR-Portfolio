@@ -6,26 +6,27 @@ import { useRouter } from '../context/RouterContext';
 
 export const Footer: React.FC = () => {
   const { isDark } = useTheme();
-  const { path: currentPath, navigate, scrollToSection } = useRouter();
+  const { path: currentPath, navigate } = useRouter();
 
+  // Footer links are page routes, not links to sections on the homepage.
   const links = [
-    { name: 'Home', sectionId: 'home' },
-    { name: 'About', sectionId: 'about' },
-    { name: 'Projects', sectionId: 'projects' },
-    { name: 'Ventures', sectionId: 'ventures' },
-    { name: 'Skills', sectionId: 'skills' },
-    { name: 'Writing', sectionId: 'writing' },
-    { name: 'Tech with Patrick', sectionId: 'tech-with-patrick' },
-    { name: 'Contact', sectionId: 'contact' },
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Projects', href: '/projects' },
+    { name: 'Ventures', href: '/ventures' },
+    { name: 'Skills', href: '/skills' },
+    { name: 'Writing', href: '/writing' },
+    { name: 'Tech with Patrick', href: '/tech-with-patrick' },
+    { name: 'Contact', href: '/contact' },
   ];
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  const handlePageClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    if (currentPath === '/') {
-      scrollToSection(sectionId);
-    } else {
-      navigate(`/#${sectionId}`);
+    if (currentPath === href) {
+      if (href === '/') window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
+    navigate(href);
   };
 
   return (
@@ -40,15 +41,9 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           <a
             href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              if (currentPath === '/') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              } else {
-                navigate('/');
-              }
-            }}
+            onClick={(e) => handlePageClick(e, '/')}
             className="flex items-center gap-3 cursor-pointer"
+            aria-label="Patrick JR Mulenga home"
           >
             <PMLogo className="w-8 h-8" />
             <span className={`text-base font-bold tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
@@ -56,12 +51,13 @@ export const Footer: React.FC = () => {
             </span>
           </a>
 
-          <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs sm:text-sm">
-            {links.map(({ name, sectionId }) => (
+          <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs sm:text-sm" aria-label="Footer navigation">
+            {links.map(({ name, href }) => (
               <a
                 key={name}
-                href={`#${sectionId}`}
-                onClick={(e) => handleLinkClick(e, sectionId)}
+                href={href}
+                onClick={(e) => handlePageClick(e, href)}
+                aria-current={currentPath === href ? 'page' : undefined}
                 className={`transition-colors cursor-pointer ${
                   isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-slate-800 hover:text-cyan-600 font-medium'
                 }`}
@@ -72,32 +68,14 @@ export const Footer: React.FC = () => {
           </nav>
 
           <div className="flex items-center gap-4">
-            <a
-              href="https://linkedin.com/in/patrick-mulenga"
-              target="_blank"
-              rel="noreferrer"
-              className={isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-black hover:text-cyan-600'}
-              aria-label="LinkedIn"
-            >
-              <Linkedin className={`w-4 h-4 ${isDark ? 'text-slate-400' : 'text-black'}`} />
+            <a href="https://linkedin.com/in/patrick-mulenga" target="_blank" rel="noreferrer" className={isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-black hover:text-cyan-600'} aria-label="LinkedIn">
+              <Linkedin className="w-4 h-4" />
             </a>
-            <a
-              href="https://github.com/Patrick-JR"
-              target="_blank"
-              rel="noreferrer"
-              className={isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-black hover:text-cyan-600'}
-              aria-label="GitHub"
-            >
-              <Github className={`w-4 h-4 ${isDark ? 'text-slate-400' : 'text-black'}`} />
+            <a href="https://github.com/Patrick-JR" target="_blank" rel="noreferrer" className={isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-black hover:text-cyan-600'} aria-label="GitHub">
+              <Github className="w-4 h-4" />
             </a>
-            <a
-              href="https://youtube.com/@techwithpatrick"
-              target="_blank"
-              rel="noreferrer"
-              className={isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-black hover:text-cyan-600'}
-              aria-label="YouTube"
-            >
-              <Youtube className={`w-4 h-4 ${isDark ? 'text-slate-400' : 'text-black'}`} />
+            <a href="https://youtube.com/@techwithpatrick" target="_blank" rel="noreferrer" className={isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-black hover:text-cyan-600'} aria-label="YouTube">
+              <Youtube className="w-4 h-4" />
             </a>
           </div>
         </div>
