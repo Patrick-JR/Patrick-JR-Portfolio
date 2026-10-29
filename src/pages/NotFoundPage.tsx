@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { PageShell, PageSection, PageButton } from '../components/PageShell';
 
 export default function NotFoundPage() {
@@ -20,9 +20,7 @@ export default function NotFoundPage() {
           </p>
           <div className="flex flex-wrap gap-3 mt-6">
             <PageButton href="/">Return home</PageButton>
-            <a href="/projects" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-700 text-slate-200 hover:border-cyan-500/50 hover:text-cyan-300 transition-colors text-sm">
-              <ArrowLeft className="w-4 h-4" /> Explore projects
-            </a>
+            <PageButton href="/projects" secondary>Explore projects</PageButton>
           </div>
         </div>
       </PageSection>
