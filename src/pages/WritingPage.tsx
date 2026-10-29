@@ -1,7 +1,7 @@
 import React from 'react';
 import { BookOpen, Calendar, Clock, PenLine } from 'lucide-react';
 import { ARTICLES_DATA } from '../data/portfolioData';
-import { PageShell, PageSection } from '../components/PageShell';
+import { PageShell, PageSection, PageButton } from '../components/PageShell';
 
 export default function WritingPage() {
  return <PageShell
@@ -46,7 +46,7 @@ export default function WritingPage() {
   <PageSection className="pt-4">
     <div className="rounded-3xl border border-cyan-950/70 bg-[#050b18] p-7 sm:p-9 flex flex-col sm:flex-row items-start sm:items-center gap-5 justify-between">
       <div><div className="flex items-center gap-2 text-cyan-400 font-semibold"><PenLine className="w-4 h-4"/>Writing in public</div><p className="text-sm text-slate-400 mt-2 max-w-2xl">This section can grow with published essays, research notes, book projects and the lessons I keep collecting from building.</p></div>
-      <a href="/contact" className="text-sm font-semibold text-cyan-400 hover:text-cyan-300">Talk about an idea →</a>
+      <PageButton href="/contact" secondary>Talk about an idea</PageButton>
     </div>
   </PageSection>
  </PageShell>
