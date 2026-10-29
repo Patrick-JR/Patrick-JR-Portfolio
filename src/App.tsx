@@ -23,8 +23,10 @@ import ContactPage from './pages/ContactPage';
 
 function HomePreview() {
   const { isDark } = useTheme();
-  const { navigate, scrollToSection } = useRouter();
+  const { navigate } = useRouter();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+
+  const openPage = (route: string) => navigate(route);
 
   return (
     <div
@@ -32,38 +34,49 @@ function HomePreview() {
         isDark ? 'bg-[#030712] text-slate-100' : 'bg-white text-slate-900'
       }`}
     >
-      <Navbar onOpenConnect={() => scrollToSection('contact')} />
+      <Navbar onOpenConnect={() => openPage('/contact')} />
+
       <main>
         <Hero
-          onExploreWork={() => scrollToSection('projects')}
-          onGetInTouch={() => scrollToSection('contact')}
-          onOpenTechPatrick={() => scrollToSection('tech-with-patrick')}
+          onExploreWork={() => openPage('/projects')}
+          onGetInTouch={() => openPage('/contact')}
+          onOpenTechPatrick={() => openPage('/tech-with-patrick')}
         />
-        <AboutSection onLearnMore={() => navigate('/about')} />
+
+        <AboutSection onLearnMore={() => openPage('/about')} />
+
         <ProjectsSection
-          onSelectProject={() => navigate('/projects')}
-          onViewAllProjects={() => navigate('/projects')}
+          onSelectProject={() => openPage('/projects')}
+          onViewAllProjects={() => openPage('/projects')}
         />
+
         <VenturesSection
-          onSelectVenture={() => navigate('/ventures')}
-          onViewAllVentures={() => navigate('/ventures')}
+          onSelectVenture={() => openPage('/ventures')}
+          onViewAllVentures={() => openPage('/ventures')}
         />
+
         <SkillsSection />
+
         <WritingSection
-          onSelectArticle={() => navigate('/writing')}
-          onExploreWriting={() => navigate('/writing')}
+          onSelectArticle={() => openPage('/writing')}
+          onExploreWriting={() => openPage('/writing')}
         />
-        <TechWithPatrickSection onVisitChannel={() => navigate('/tech-with-patrick')} />
-        <ContactSection onOpenConnectModal={() => scrollToSection('contact')} />
+
+        <TechWithPatrickSection onVisitChannel={() => openPage('/tech-with-patrick')} />
+
+        <ContactSection onOpenConnectModal={() => openPage('/contact')} />
       </main>
+
       <Footer />
+
       <MobileBottomNav onOpenMore={() => setIsMoreOpen(true)} />
+
       <MoreSheet
         isOpen={isMoreOpen}
         onClose={() => setIsMoreOpen(false)}
-        onOpenConnect={() => scrollToSection('contact')}
-        onOpenAbout={() => scrollToSection('about')}
-        onOpenTech={() => scrollToSection('tech-with-patrick')}
+        onOpenConnect={() => openPage('/contact')}
+        onOpenAbout={() => openPage('/about')}
+        onOpenTech={() => openPage('/tech-with-patrick')}
       />
     </div>
   );
@@ -81,8 +94,9 @@ function RouterView() {
       '/skills': 'Skills & Technologies | Patrick JR Mulenga',
       '/writing': 'Writing | Patrick JR Mulenga',
       '/tech-with-patrick': 'Tech with Patrick | Patrick JR Mulenga',
-      '/contact': 'Contact | Patrick JR Mulenga'
+      '/contact': 'Contact | Patrick JR Mulenga',
     };
+
     document.title = titles[path] || titles['/'];
   }, [path]);
 
@@ -93,6 +107,7 @@ function RouterView() {
   if (path === '/writing') return <WritingPage />;
   if (path === '/tech-with-patrick') return <TechWithPatrickPage />;
   if (path === '/contact') return <ContactPage />;
+
   return <HomePreview />;
 }
 
