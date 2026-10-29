@@ -9,23 +9,15 @@ interface MobileBottomNavProps {
 
 export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMore }) => {
   const { isDark } = useTheme();
-  const { path: currentPath, navigate, scrollToSection } = useRouter();
+  const { path: currentPath, navigate } = useRouter();
 
+  // Mobile items navigate to full pages. They no longer scroll to homepage sections.
   const items = [
-    { sectionId: 'home', label: 'Home', icon: Home },
-    { sectionId: 'projects', label: 'Projects', icon: FolderKanban },
-    { sectionId: 'ventures', label: 'Ventures', icon: Rocket },
-    { sectionId: 'writing', label: 'Writing', icon: BookOpen },
-  ] as const;
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, sectionId: string) => {
-    e.preventDefault();
-    if (currentPath === '/') {
-      scrollToSection(sectionId);
-    } else {
-      navigate(`/#${sectionId}`);
-    }
-  };
+    { href: '/', label: 'Home', icon: Home },
+    { href: '/projects', label: 'Projects', icon: FolderKanban },
+    { href: '/ventures', label: 'Ventures', icon: Rocket },
+    { href: '/writing', label: 'Writing', icon: BookOpen },
+  ];
 
   return (
     <nav
@@ -34,38 +26,41 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMore }) 
           ? 'bg-[#030712]/95 border-t border-cyan-950/70 shadow-lg shadow-black/80'
           : 'bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]'
       } backdrop-blur-lg`}
-      aria-label="Mobile Bottom Navigation"
+      aria-label="Mobile page navigation"
     >
       <div className="max-w-md mx-auto grid grid-cols-5 items-center">
-        {items.map(({ sectionId, label, icon: Icon }) => (
-          <button
-            key={sectionId}
-            onClick={(e) => handleClick(e, sectionId)}
-            className={`flex flex-col items-center justify-center py-1 px-1 rounded-xl cursor-pointer transition-colors ${
-              isDark
-                ? 'text-slate-400 hover:text-cyan-300'
-                : 'text-black hover:text-cyan-600'
-            }`}
-          >
-            <Icon className={`w-5 h-5 ${isDark ? 'text-slate-300' : 'text-black'}`} />
-            <span className={`text-[10px] mt-1 font-medium ${isDark ? 'text-slate-400' : 'text-slate-800'}`}>
-              {label}
-            </span>
-          </button>
-        ))}
+        {items.map(({ href, label, icon: Icon }) => {
+          const active = currentPath === href;
+          return (
+            <a
+              key={href}
+              href={href}
+              onClick={(e) => {
+                e.preventDefault();
+                if (currentPath !== href) navigate(href);
+                else if (href === '/') window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              aria-current={active ? 'page' : undefined}
+              className={`flex flex-col items-center justify-center py-1 px-1 rounded-xl cursor-pointer transition-colors ${
+                active
+                  ? isDark ? 'text-cyan-400 font-semibold' : 'text-cyan-600 font-bold'
+                  : isDark ? 'text-slate-400 hover:text-slate-200' : 'text-black hover:text-cyan-600'
+              }`}
+            >
+              <Icon className="w-5 h-5" />
+              <span className="text-[10px] mt-1 tracking-tight">{label}</span>
+            </a>
+          );
+        })}
 
         <button
           onClick={onOpenMore}
           className={`flex flex-col items-center justify-center py-1 px-1 rounded-xl cursor-pointer transition-colors ${
-            isDark
-              ? 'text-slate-400 hover:text-cyan-300'
-              : 'text-black hover:text-cyan-600'
+            isDark ? 'text-slate-400 hover:text-cyan-300' : 'text-black hover:text-cyan-600'
           }`}
         >
-          <MoreHorizontal className={`w-5 h-5 ${isDark ? 'text-slate-300' : 'text-black'}`} />
-          <span className={`text-[10px] mt-1 font-medium ${isDark ? 'text-slate-400' : 'text-slate-800'}`}>
-            More
-          </span>
+          <MoreHorizontal className="w-5 h-5" />
+          <span className="text-[10px] mt-1 tracking-tight">More</span>
         </button>
       </div>
     </nav>
