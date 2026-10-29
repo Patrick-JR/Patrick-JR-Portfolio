@@ -12,80 +12,72 @@ const RouterContext = createContext<RouterContextType>({
   scrollToSection: () => {},
 });
 
+// Keep route comparisons consistent for direct URLs such as "/about/".
+const normalizePath = (value: string) => {
+  const withoutQuery = value.split('?')[0] || '/';
+  const trimmed = withoutQuery.replace(/\/+$/, '');
+  return trimmed || '/';
+};
+
 export const useRouter = () => useContext(RouterContext);
 
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Normalize initial path from location
   const [path, setPath] = useState<string>(() => {
     if (typeof window === 'undefined') return '/';
-    const initialPath = window.location.pathname || '/';
-    // If the path is an SPA route, accept it, otherwise '/'
-    return initialPath.startsWith('/') ? initialPath : '/';
+    return normalizePath(window.location.pathname || '/');
   });
 
   const scrollToSection = useCallback((sectionId: string) => {
     const id = sectionId.replace(/^#/, '');
     const element = document.getElementById(id);
-    if (element) {
-      const navOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = Math.max(0, elementPosition - navOffset);
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
+
+    if (!element) return;
+
+    const navOffset = 80;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = Math.max(0, elementPosition - navOffset);
+
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
   }, []);
 
   const navigate = useCallback((to: string) => {
-    // If navigating to a section anchor like #ventures or /#ventures
+    // Explicit anchors are still supported for intentional in-page navigation.
+    // Main navigation items must use page paths such as "/about" and "/projects".
     if (to.startsWith('#') || to.startsWith('/#')) {
-      const sectionId = to.replace('/#', '#');
+      const sectionId = to.startsWith('/#') ? to.slice(2) : to.slice(1);
+
       if (path !== '/') {
         setPath('/');
-        try {
-          window.history.pushState({ path: '/' }, '', '/');
-        } catch {}
-        setTimeout(() => scrollToSection(sectionId), 50);
+        window.history.pushState({ path: '/' }, '', '/');
+        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+        window.setTimeout(() => scrollToSection(sectionId), 50);
       } else {
         scrollToSection(sectionId);
       }
       return;
     }
 
-    // If navigating to home
-    if (to === '/' || to === '') {
-      if (path === '/') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        setPath('/');
-        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-        try {
-          window.history.pushState({ path: '/' }, '', '/');
-        } catch {}
-      }
+    const nextPath = normalizePath(to);
+
+    if (nextPath === path) {
+      if (nextPath === '/') window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // Direct page navigation (instant in-memory update)
-    setPath(to);
+    setPath(nextPath);
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-    try {
-      window.history.pushState({ path: to }, '', to);
-    } catch {}
+    window.history.pushState({ path: nextPath }, '', nextPath);
   }, [path, scrollToSection]);
 
   useEffect(() => {
-    const handlePopState = (e: PopStateEvent) => {
-      const nextPath = e.state?.path || window.location.pathname || '/';
+    const handlePopState = (event: PopStateEvent) => {
+      const nextPath = normalizePath(event.state?.path || window.location.pathname || '/');
       setPath(nextPath);
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     };
 
     window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   return (
