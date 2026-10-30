@@ -7,10 +7,11 @@ import {
   LogOut, Menu, Monitor, MoreHorizontal, Pencil, Plus, Search, Settings, ShieldCheck,
   Sparkles, Trash2, Upload, UserRound, Users, X, Zap
 } from 'lucide-react';
+import { ArticleItem, ProjectItem, VentureItem } from '../data/portfolioData';
 import {
-  ActivityItem, ArticleItem, PortfolioContent, PortfolioLink, ProjectItem, SkillEntry,
-  SkillGroup, VentureItem, addActivity, readActivity, readPageViews, resetPortfolioContent,
-  savePortfolioContent, updatePortfolioContent, useActivity, usePageViews, usePortfolioContent
+  ActivityItem, PortfolioContent, PortfolioLink, SkillEntry,
+  addActivity, resetPortfolioContent, savePortfolioContent, updatePortfolioContent,
+  useActivity, usePageViews, usePortfolioContent
 } from '../data/portfolioStore';
 import { useRouter } from '../context/RouterContext';
 import { PMLogo } from '../components/Icons';
@@ -205,8 +206,8 @@ function Field({ label, value, onChange, placeholder, required = false, type = '
   return <label className="block min-w-0"><span className="block text-xs font-medium text-slate-300 mb-1.5">{label}</span><input type={type} value={value} onChange={(e) => onChange(e.target.value)} required={required} placeholder={placeholder} className="w-full rounded-lg bg-[#030d1c] border border-slate-700/80 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/10 outline-none px-3 py-2.5 text-sm text-white placeholder:text-slate-600"/></label>;
 }
 
-function TextField({ label, value, onChange, rows = 4, placeholder }: { label: string; value: string; onChange: (value: string) => void; rows?: number; placeholder?: string }) {
-  return <label className="block"><span className="block text-xs font-medium text-slate-300 mb-1.5">{label}</span><textarea value={value} onChange={(e) => onChange(e.target.value)} rows={rows} placeholder={placeholder} className="w-full rounded-lg bg-[#030d1c] border border-slate-700/80 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/10 outline-none px-3 py-2.5 text-sm leading-relaxed text-white placeholder:text-slate-600 resize-y"/></label>;
+function TextField({ label, value, onChange, rows = 4, placeholder, required = false }: { label: string; value: string; onChange: (value: string) => void; rows?: number; placeholder?: string; required?: boolean }) {
+  return <label className="block"><span className="block text-xs font-medium text-slate-300 mb-1.5">{label}</span><textarea value={value} onChange={(e) => onChange(e.target.value)} rows={rows} placeholder={placeholder} required={required} className="w-full rounded-lg bg-[#030d1c] border border-slate-700/80 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/10 outline-none px-3 py-2.5 text-sm leading-relaxed text-white placeholder:text-slate-600 resize-y"/></label>;
 }
 
 
