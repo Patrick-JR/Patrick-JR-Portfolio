@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Code2, Brain, Search, Rocket, BookOpen } from 'lucide-react';
 import { ABOUT_DATA } from '../data/portfolioData';
+import { usePortfolioContent } from '../data/portfolioStore';
 import { useTheme } from '../context/ThemeContext';
 
 interface AboutSectionProps {
@@ -9,6 +10,7 @@ interface AboutSectionProps {
 
 export const AboutSection: React.FC<AboutSectionProps> = ({ onLearnMore }) => {
   const { isDark } = useTheme();
+  const { about } = usePortfolioContent();
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -35,18 +37,18 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onLearnMore }) => {
           {/* Left Column: Heading and Narrative */}
           <div className="lg:col-span-5 space-y-6">
             <div className="font-mono-tag text-cyan-500 text-xs sm:text-sm tracking-wider font-medium">
-              {ABOUT_DATA.kicker}
+              {about.kicker}
             </div>
 
             <h2 className={`text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              {ABOUT_DATA.titlePart1}
+              {about.titlePart1}
               <br />
-              {ABOUT_DATA.titlePart2}{' '}
-              <span className="text-[#00E5FF]">{ABOUT_DATA.titleHighlight}</span>
+              {about.titlePart2}{' '}
+              <span className="text-[#00E5FF]">{about.titleHighlight}</span>
             </h2>
 
             <div className={`space-y-4 text-sm sm:text-base leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-              {ABOUT_DATA.paragraphs.map((p, idx) => (
+              {about.paragraphs.map((p, idx) => (
                 <p key={idx}>{p}</p>
               ))}
             </div>
