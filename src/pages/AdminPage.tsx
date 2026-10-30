@@ -333,10 +333,10 @@ export default function AdminPage() {
   };
 
   const saveAbout = () => {
-    if (!aboutDraft) return;
+    if (!aboutDraft && !heroDraft) return;
     updatePortfolioContent((current) => ({
       ...current,
-      about: { ...current.about, ...aboutDraft },
+      about: aboutDraft ? { ...current.about, ...aboutDraft } : current.about,
       hero: heroDraft ? { ...current.hero, ...heroDraft } : current.hero,
     }), { action: 'Profile updated', detail: 'Homepage introduction and About biography' });
     setAboutDraft(null);
