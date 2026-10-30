@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Linkedin, Github, Youtube, MonitorPlay } from 'lucide-react';
+import { ArrowRight, Linkedin, Github, Youtube, MonitorPlay, Link2 } from 'lucide-react';
 import { HERO_DATA } from '../data/portfolioData';
 import { usePortfolioContent } from '../data/portfolioStore';
 
@@ -10,12 +10,14 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onExploreWork, onGetInTouch, onOpenTechPatrick }) => {
-  const { hero } = usePortfolioContent();
-  const socialLinks = [
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/patrick-mulenga', icon: Linkedin },
-    { label: 'GitHub', href: 'https://github.com/Patrick-JR', icon: Github },
-    { label: 'YouTube', href: 'https://youtube.com/@techwithpatrick', icon: Youtube },
-  ];
+  const { hero, links } = usePortfolioContent();
+  const iconFor = (label: string) => {
+    const name = label.toLowerCase();
+    if (name.includes('linkedin')) return Linkedin;
+    if (name.includes('github')) return Github;
+    if (name.includes('youtube')) return Youtube;
+    return Link2;
+  };
 
   return (
     <section id="home" className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden bg-[#030712] text-slate-100">
@@ -37,11 +39,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onGetInTouch, onOpenT
               <button onClick={onGetInTouch} className="flex items-center gap-2 px-6 py-3 text-sm font-medium text-slate-200 hover:text-white bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 rounded-full transition-all active:scale-95 cursor-pointer">Get in Touch</button>
             </div>
             <div className="flex flex-wrap items-center gap-4 pt-4 text-xs font-medium text-slate-400">
-              {socialLinks.map(({label,href,icon:Icon})=><a key={label} href={href} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors"><Icon className="w-3.5 h-3.5 text-cyan-400"/><span>{label}</span></a>)}
+              {links.slice(0,4).map((link)=>{const Icon=iconFor(link.label);return <a key={link.id} href={link.href} target={link.href.startsWith('http')?'_blank':undefined} rel="noreferrer" className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors"><Icon className="w-3.5 h-3.5 text-cyan-400"/><span>{link.label}</span></a>;})}
               <button onClick={onOpenTechPatrick} className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors cursor-pointer"><MonitorPlay className="w-3.5 h-3.5 text-cyan-400"/><span>Tech with Patrick</span></button>
             </div>
           </div>
-
           <div className="lg:col-span-5 relative flex items-center justify-center">
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 via-blue-600/10 to-transparent rounded-full blur-3xl"/>
             <div className="relative w-full max-w-md lg:max-w-none flex items-center justify-center">
