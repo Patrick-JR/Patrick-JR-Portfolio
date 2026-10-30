@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { PROJECTS_DATA, ProjectItem } from '../data/portfolioData';
+import { ProjectItem } from '../data/portfolioData';
+import { usePortfolioContent } from '../data/portfolioStore';
 import { useTheme } from '../context/ThemeContext';
 
 interface ProjectsSectionProps {
@@ -13,6 +14,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
   onViewAllProjects,
 }) => {
   const { isDark } = useTheme();
+  const { projects } = usePortfolioContent();
 
   return (
     <section id="projects" className="py-20 lg:py-28 relative">
@@ -47,7 +49,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
 
         {/* 4 Projects Grid (Cards remain black as requested) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PROJECTS_DATA.map((project) => (
+          {projects.slice(0, 4).map((project) => (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
