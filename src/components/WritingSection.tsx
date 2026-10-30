@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { ARTICLES_DATA, ArticleItem } from '../data/portfolioData';
+import { ArticleItem } from '../data/portfolioData';
+import { usePortfolioContent } from '../data/portfolioStore';
 import { useTheme } from '../context/ThemeContext';
 
 interface WritingSectionProps {
@@ -13,6 +14,8 @@ export const WritingSection: React.FC<WritingSectionProps> = ({
   onExploreWriting,
 }) => {
   const { isDark } = useTheme();
+  const { articles } = usePortfolioContent();
+  const visibleArticles = articles.filter((article) => article.status === 'Published').slice(0, 3);
 
   return (
     <section id="writing" className="py-20 lg:py-28 relative">
@@ -51,7 +54,7 @@ export const WritingSection: React.FC<WritingSectionProps> = ({
           {/* Right Column: 3 Article Cards (Cards remain black as requested) */}
           <div className="lg:col-span-8">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              {ARTICLES_DATA.map((article) => (
+              {visibleArticles.length === 0 ? <div className="sm:col-span-3 rounded-2xl border border-cyan-950/70 bg-[#050b18] p-6 text-sm text-slate-500">New writing will appear here when it is published.</div> : visibleArticles.map((article) => (
                 <div
                   key={article.id}
                   onClick={() => onSelectArticle(article)}
