@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Play, Youtube, BookOpen, Lightbulb } from 'lucide-react';
 import { PageShell, PageSection, PageButton } from '../components/PageShell';
+import { usePortfolioContent } from '../data/portfolioStore';
 
 const pillars=[
  ['AI made understandable','Break down AI concepts, research and new developments without turning every explanation into a wall of jargon.'],
@@ -10,6 +11,8 @@ const pillars=[
 ];
 
 export default function TechWithPatrickPage(){
+ const { links } = usePortfolioContent();
+ const channelUrl = links.find((link) => /youtube|tech with patrick/i.test(link.label))?.href || 'https://youtube.com/@techwithpatrick';
  return <PageShell
   kicker="// TECH WITH PATRICK"
   title="Explore AI. Understand technology. Use it to your advantage."
@@ -26,7 +29,7 @@ export default function TechWithPatrickPage(){
       <p className="text-sm sm:text-base text-slate-400 leading-relaxed mt-5">
         I want Tech with Patrick to be a place where someone can hear about a new AI model, an interesting research paper, a software concept or a new technology trend and leave with a clearer understanding of what it actually means.
       </p>
-      <div className="mt-7"><PageButton href="https://youtube.com/@techwithpatrick">Visit YouTube</PageButton></div>
+      <div className="mt-7"><PageButton href={channelUrl}>Visit YouTube</PageButton></div>
     </div>
    </div>
   </PageSection>
@@ -59,7 +62,7 @@ export default function TechWithPatrickPage(){
   <PageSection className="pt-4">
    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
     <div><div className="font-mono-tag text-cyan-400 text-xs mb-2">// KEEP WATCHING</div><h2 className="text-2xl font-bold text-white">The channel grows with the journey.</h2></div>
-    <a href="https://youtube.com/@techwithpatrick" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-400">Visit Tech with Patrick <ArrowRight className="w-4 h-4"/></a>
+    <a href={channelUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-400">Visit Tech with Patrick <ArrowRight className="w-4 h-4"/></a>
    </div>
   </PageSection>
  </PageShell>
