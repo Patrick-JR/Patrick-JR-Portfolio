@@ -20,6 +20,8 @@ import SkillsPage from './pages/SkillsPage';
 import WritingPage from './pages/WritingPage';
 import TechWithPatrickPage from './pages/TechWithPatrickPage';
 import ContactPage from './pages/ContactPage';
+import AdminPage from './pages/AdminPage';
+import { trackPageView } from './data/portfolioStore';
 import NotFoundPage from './pages/NotFoundPage';
 
 function HomePreview() {
@@ -98,7 +100,8 @@ function RouterView() {
       '/contact': 'Contact | Patrick JR Mulenga',
     };
 
-    document.title = titles[path] || titles['/'];
+    document.title = path === '/admin' ? 'Portfolio Admin | Patrick JR Mulenga' : (titles[path] || titles['/']);
+    trackPageView(path);
   }, [path]);
 
   if (path === '/about') return <AboutPage />;
@@ -108,6 +111,7 @@ function RouterView() {
   if (path === '/writing') return <WritingPage />;
   if (path === '/tech-with-patrick') return <TechWithPatrickPage />;
   if (path === '/contact') return <ContactPage />;
+  if (path === '/admin') return <AdminPage />;
   if (path === '/') return <HomePreview />;
 
   return <NotFoundPage />;
