@@ -1,10 +1,11 @@
 import React from 'react';
 import { Code2, Brain, Database, Search } from 'lucide-react';
-import { SKILLS_DATA } from '../data/portfolioData';
+import { usePortfolioContent } from '../data/portfolioStore';
 import { useTheme } from '../context/ThemeContext';
 
 export const SkillsSection: React.FC = () => {
   const { isDark } = useTheme();
+  const { skills } = usePortfolioContent();
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -40,7 +41,7 @@ export const SkillsSection: React.FC = () => {
 
         {/* 4 Cards Grid (Cards remain black as requested) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {SKILLS_DATA.map((item) => (
+          {skills.map((item) => (
             <div
               key={item.category}
               className="bg-[#050b18] hover:bg-[#071126] border border-cyan-950/70 hover:border-cyan-500/40 rounded-2xl p-6 transition-all duration-300 card-glow-hover flex flex-col space-y-4 shadow-lg shadow-black/50"
@@ -54,7 +55,7 @@ export const SkillsSection: React.FC = () => {
                   {item.category}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  {item.skills}
+                  {item.skills.map((skill) => skill.name).join(', ')}
                 </p>
               </div>
             </div>
