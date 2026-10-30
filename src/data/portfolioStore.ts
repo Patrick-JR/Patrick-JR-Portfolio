@@ -97,7 +97,35 @@ export const DEFAULT_PORTFOLIO_CONTENT: PortfolioContent = {
     ].join('\n\n'),
     principle: 'Technology is a tool. Human potential is the reason.',
   },
-  projects: PROJECTS_DATA.map((item) => ({ ...item, techStack: item.techStack ? [...item.techStack] : [] })),
+  projects: [
+    ...PROJECTS_DATA.map((item) => ({ ...item, techStack: item.techStack ? [...item.techStack] : [] })),
+    {
+      id: 'redox',
+      name: 'Redox',
+      tag: 'Business Intelligence',
+      tagColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+      description: 'An executive dashboard concept for a multi-branch business, bringing operational visibility, sales activity and AI-assisted questions into one workspace.',
+      image: '',
+      fullOverview: 'Redox explores an executive view across shops, employees, access activity, sales signals and operational alerts. The product direction is to help leadership understand what is happening across locations and ask useful questions about the data.',
+      role: 'Product concept and dashboard prototyping',
+      status: 'Demo concept',
+      techStack: ['Dashboard design', 'Operational analytics', 'AI-assisted insights'],
+      notes: 'A product concept and demo direction, not a live business intelligence deployment.'
+    },
+    {
+      id: 'jelumu-showroom',
+      name: 'Jelumu Digital Showroom',
+      tag: 'Automotive',
+      tagColor: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+      description: 'A digital showroom concept for presenting vehicle inventory and helping customers explore cars online.',
+      image: '',
+      fullOverview: 'The showroom concept explores a modern digital experience for vehicle listings, including inventory details, pricing, mileage, condition, photographs and an AI-assisted customer enquiry experience.',
+      role: 'Software design and product prototyping',
+      status: 'Prototype',
+      techStack: ['Web application', 'Vehicle inventory', 'AI-assisted enquiries'],
+      notes: 'Prototype direction; confirm deployment and live capabilities before describing this as a production showroom.'
+    }
+  ],
   ventures: VENTURES_DATA.map((item) => ({ ...item })),
   skills: SKILLS_DATA.map((group, groupIndex) => ({
     id: makeId('skill-group', groupIndex),
