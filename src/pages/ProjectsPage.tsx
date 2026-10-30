@@ -3,23 +3,6 @@ import { ArrowUpRight, Code2, Eye, Layers3 } from 'lucide-react';
 import { usePortfolioContent } from '../data/portfolioStore';
 import { PageShell, PageSection, PageButton } from '../components/PageShell';
 
-const extraProjects = [
-  {
-    name: 'Redox',
-    tag: 'Business Intelligence / Product Concept',
-    description: 'An executive dashboard concept designed to give a growing multi-branch business a quick view of shops, employees, logins, sales activity and alerts, with an AI layer that can answer questions about what is happening.',
-    status: 'Demo concept',
-    note: 'The current direction is intentionally phased, starting with the main executive and branch experience before regional management and deeper operational features.'
-  },
-  {
-    name: 'Jelumu / Jelo Digital Showroom',
-    tag: 'Automotive / Product Prototype',
-    description: 'A digital showroom and administration concept for a Zambian car company, combining vehicle inventory, pricing, mileage, condition, imagery and an AI-assisted customer experience.',
-    status: 'Prototype',
-    note: 'The aim is to demonstrate how a modern vehicle company could present inventory and answer customer questions digitally.'
-  }
-];
-
 export default function ProjectsPage() {
   const { projects } = usePortfolioContent();
   return (
@@ -30,7 +13,7 @@ export default function ProjectsPage() {
     >
       <PageSection kicker="// FEATURED WORK" title="The projects behind the homepage.">
         <div className="space-y-10">
-          {PROJECTS_DATA.map((project, index) => (
+          {projects.map((project, index) => (
             <article key={project.id} className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-start rounded-3xl border border-cyan-950/70 bg-[#050b18] p-5 sm:p-7">
               <div className="lg:col-span-7">
                 <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 aspect-[16/9]">
@@ -52,23 +35,6 @@ export default function ProjectsPage() {
                 {project.notes && <p className="text-xs text-slate-500 leading-relaxed border-l-2 border-cyan-900 pl-3">{project.notes}</p>}
                 {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-400 hover:text-cyan-300">Open live project <ArrowUpRight className="w-3.5 h-3.5"/></a>}
               </div>
-            </article>
-          ))}
-        </div>
-      </PageSection>
-
-      <PageSection kicker="// OTHER BUILDS" title="Projects that are still taking shape.">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {extraProjects.map(project => (
-            <article key={project.name} className="rounded-3xl border border-cyan-950/70 bg-[#050b18] p-7">
-              <div className="flex items-center justify-between gap-4 mb-5">
-                <div className="w-11 h-11 rounded-xl bg-cyan-950/50 border border-cyan-500/30 flex items-center justify-center text-cyan-400"><Layers3 className="w-5 h-5" /></div>
-                <span className="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-emerald-500/30 text-emerald-300 bg-emerald-950/30">{project.status}</span>
-              </div>
-              <div className="font-mono-tag text-[11px] text-cyan-400">{project.tag}</div>
-              <h3 className="text-2xl font-bold text-white mt-2">{project.name}</h3>
-              <p className="text-sm text-slate-400 leading-relaxed mt-4">{project.description}</p>
-              <p className="text-xs text-slate-500 leading-relaxed mt-5">{project.note}</p>
             </article>
           ))}
         </div>
