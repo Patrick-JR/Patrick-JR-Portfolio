@@ -125,7 +125,7 @@ function MetricCard({ label, value, hint, icon: Icon, tone }: { label: string; v
 function ProjectEditor({ value, onClose, onSave }: { value: ProjectItem; onClose: () => void; onSave: (value: ProjectItem) => void }) {
   const [draft, setDraft] = useState<ProjectItem>({ ...value, techStack: [...(value.techStack || [])] });
   const [techText, setTechText] = useState((value.techStack || []).join(', '));
-  const update = (key: keyof ProjectItem, next: string) => setDraft((current) => ({ ...current, [key]: next }));
+  const update = (key: keyof ProjectItem, next: string) => setDraft((current) => ({ ...current, [key]: next } as ProjectItem));
   return (
     <div className="fixed inset-0 z-[80] bg-black/75 backdrop-blur-sm p-3 sm:p-6 flex items-center justify-center" onClick={onClose}>
       <form onSubmit={(e) => { e.preventDefault(); onSave({ ...draft, techStack: techText.split(',').map((item) => item.trim()).filter(Boolean) }); }}
@@ -141,7 +141,7 @@ function ProjectEditor({ value, onClose, onSave }: { value: ProjectItem; onClose
           <Field label="Your role" value={draft.role || ''} onChange={(v) => update('role', v)} placeholder="Founder, builder, engineer..."/>
           <div className="sm:col-span-2"><Field label="Short description" value={draft.description} onChange={(v) => update('description', v)} required placeholder="A short overview for project cards."/></div>
           <div className="sm:col-span-2"><TextField label="Full project overview" value={draft.fullOverview || ''} onChange={(v) => update('fullOverview', v)} rows={4} placeholder="Explain the problem, approach and what you built."/></div>
-          <Field label="Image URL" value={draft.image} onChange={(v) => update('image', v)} placeholder="/src/assets/images/... or https://..."/>
+          <div className="sm:col-span-2"><Field label="Image URL" value={draft.image} onChange={(v) => update('image', v)} placeholder="/src/assets/images/... or https://..."/><ImagePicker label="Or choose a small image from this device" value={draft.image} onChange={(v) => update('image', v)}/></div>
           <Field label="Live project URL" value={draft.liveUrl || ''} onChange={(v) => update('liveUrl', v)} placeholder="https://..."/>
           <div className="sm:col-span-2"><Field label="Technology stack (comma separated)" value={techText} onChange={setTechText} placeholder="React, TypeScript, Firebase"/></div>
           <div className="sm:col-span-2"><TextField label="Additional notes" value={draft.notes || ''} onChange={(v) => update('notes', v)} rows={2} placeholder="Prototype limitations, collaborators, future direction..."/></div>
@@ -167,7 +167,7 @@ function PostEditor({ value, onClose, onSave }: { value: ArticleItem; onClose: (
           <div className="sm:col-span-2"><Field label="Article title" value={draft.title} onChange={(v) => update('title', v)} required placeholder="Give your article a clear title"/></div>
           <Field label="Category" value={draft.tag} onChange={(v) => update('tag', v)} placeholder="Technology, Research, Philosophy..."/>
           <SelectField label="Publication status" value={draft.status || 'Draft'} onChange={(v) => update('status', v)} options={['Draft','Published']}/>
-          <Field label="Cover image URL" value={draft.image} onChange={(v) => update('image', v)} placeholder="https://... or /src/assets/..."/>
+          <div className="sm:col-span-2"><Field label="Cover image URL" value={draft.image} onChange={(v) => update('image', v)} placeholder="https://... or /src/assets/..."/><ImagePicker label="Or choose a small cover image" value={draft.image} onChange={(v) => update('image', v)}/></div>
           <Field label="Publication date" value={draft.date} onChange={(v) => update('date', v)} placeholder="e.g. 31 Oct 2026"/>
           <div className="sm:col-span-2"><Field label="Short summary" value={draft.summary} onChange={(v) => update('summary', v)} required placeholder="A short excerpt shown on the writing page."/></div>
           <div className="sm:col-span-2"><TextField label="Article content" value={draft.content} onChange={(v) => update('content', v)} rows={12} required placeholder="Start writing your article here..."/></div>
@@ -180,7 +180,7 @@ function PostEditor({ value, onClose, onSave }: { value: ArticleItem; onClose: (
 
 function VentureEditor({ value, onClose, onSave }: { value: VentureItem; onClose: () => void; onSave: (value: VentureItem) => void }) {
   const [draft, setDraft] = useState<VentureItem>({ ...value });
-  const update = (key: keyof VentureItem, next: string) => setDraft((current) => ({ ...current, [key]: next }));
+  const update = (key: keyof VentureItem, next: string) => setDraft((current) => ({ ...current, [key]: next } as VentureItem));
   return (
     <div className="fixed inset-0 z-[80] bg-black/75 backdrop-blur-sm p-3 sm:p-6 flex items-center justify-center" onClick={onClose}>
       <form onSubmit={(e) => { e.preventDefault(); onSave(draft); }} onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-cyan-500/25 bg-[#071326] shadow-2xl">
@@ -209,6 +209,28 @@ function TextField({ label, value, onChange, rows = 4, placeholder }: { label: s
   return <label className="block"><span className="block text-xs font-medium text-slate-300 mb-1.5">{label}</span><textarea value={value} onChange={(e) => onChange(e.target.value)} rows={rows} placeholder={placeholder} className="w-full rounded-lg bg-[#030d1c] border border-slate-700/80 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/10 outline-none px-3 py-2.5 text-sm leading-relaxed text-white placeholder:text-slate-600 resize-y"/></label>;
 }
 
+
+function ImagePicker({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  const [error, setError] = useState('');
+  const handleFile = (file?: File) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { setError('Choose an image file.'); return; }
+    if (file.size > 350 * 1024) { setError('Keep local images under 350 KB. Larger images should use a hosted URL.'); return; }
+    const reader = new FileReader();
+    reader.onload = () => { onChange(String(reader.result || '')); setError(''); };
+    reader.onerror = () => setError('Could not read this image.');
+    reader.readAsDataURL(file);
+  };
+  return <div className="mt-2 flex flex-wrap items-center gap-3">
+    <label className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-700 text-[11px] text-slate-300 hover:border-cyan-500/50 cursor-pointer">
+      <ImagePlus className="w-4 h-4 text-cyan-300"/>{label}
+      <input type="file" accept="image/*" className="hidden" onChange={(event) => handleFile(event.target.files?.[0])}/>
+    </label>
+    {value && <span className="text-[10px] text-emerald-300">Image selected</span>}
+    {error && <span className="text-[10px] text-rose-300">{error}</span>}
+  </div>;
+}
+
 function SelectField({ label, value, onChange, options }: { label: string; value: string; onChange: (value: string) => void; options: string[] }) {
   return <label className="block"><span className="block text-xs font-medium text-slate-300 mb-1.5">{label}</span><select value={value} onChange={(e) => onChange(e.target.value)} className="w-full rounded-lg bg-[#030d1c] border border-slate-700/80 focus:border-cyan-400 outline-none px-3 py-2.5 text-sm text-white">{options.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>;
 }
@@ -224,6 +246,7 @@ export default function AdminPage() {
   const [search, setSearch] = useState('');
   const [editor, setEditor] = useState<{ kind: DraftKind; value: ProjectItem | ArticleItem | VentureItem } | null>(null);
   const [aboutDraft, setAboutDraft] = useState<PortfolioContent['about'] | null>(null);
+  const [heroDraft, setHeroDraft] = useState<PortfolioContent['hero'] | null>(null);
   const [linkDrafts, setLinkDrafts] = useState<PortfolioLink[] | null>(null);
   const [newSkill, setNewSkill] = useState({ name: '', category: 'Software Development', level: 'Working' as SkillEntry['level'] });
   const [newCategory, setNewCategory] = useState('');
@@ -310,8 +333,13 @@ export default function AdminPage() {
 
   const saveAbout = () => {
     if (!aboutDraft) return;
-    updatePortfolioContent((current) => ({ ...current, about: { ...current.about, ...aboutDraft } }), { action: 'About page updated', detail: 'Biography and personal introduction' });
+    updatePortfolioContent((current) => ({
+      ...current,
+      about: { ...current.about, ...aboutDraft },
+      hero: heroDraft ? { ...current.hero, ...heroDraft } : current.hero,
+    }), { action: 'Profile updated', detail: 'Homepage introduction and About biography' });
     setAboutDraft(null);
+    setHeroDraft(null);
     notify('About page saved.');
   };
 
@@ -501,8 +529,18 @@ export default function AdminPage() {
 
   const renderAbout = () => {
     const draft = aboutDraft || content.about;
+    const profile = heroDraft || content.hero;
     const set = (key: keyof PortfolioContent['about'], value: string | string[]) => setAboutDraft((current) => ({ ...(current || content.about), [key]: value }));
+    const setProfile = (key: keyof PortfolioContent['hero'], value: string | string[]) => setHeroDraft((current) => ({ ...(current || content.hero), [key]: value }));
     return <div className="max-w-4xl space-y-5">
+      <Panel title="Homepage profile" description="These details appear in the homepage hero.">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label="First name" value={profile.nameFirst} onChange={(v) => setProfile('nameFirst', v)} />
+          <Field label="Last name" value={profile.nameLast} onChange={(v) => setProfile('nameLast', v)} />
+        </div>
+        <div className="mt-4"><Field label="Professional roles (comma separated)" value={profile.roles.join(', ')} onChange={(v) => setProfile('roles', v.split(',').map((role) => role.trim()).filter(Boolean))} /></div>
+        <div className="mt-4"><TextField label="Hero introduction" value={profile.bio} onChange={(v) => setProfile('bio', v)} rows={3}/></div>
+      </Panel>
       <Panel title="Main introduction" description="This content feeds the About page and its homepage preview.">
         <Field label="First headline line" value={draft.titlePart1} onChange={(v) => set('titlePart1',v)}/>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4"><Field label="Second headline line" value={draft.titlePart2} onChange={(v) => set('titlePart2',v)}/><Field label="Highlighted words" value={draft.titleHighlight} onChange={(v) => set('titleHighlight',v)}/></div>
