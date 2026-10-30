@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { VENTURES_DATA, VentureItem } from '../data/portfolioData';
+import { VentureItem } from '../data/portfolioData';
+import { usePortfolioContent } from '../data/portfolioStore';
 import { UpleXLogo, BuyShareLogo, GiftedLifeLogo } from './Icons';
 import { useTheme } from '../context/ThemeContext';
 
@@ -14,6 +15,7 @@ export const VenturesSection: React.FC<VenturesSectionProps> = ({
   onViewAllVentures,
 }) => {
   const { isDark } = useTheme();
+  const { ventures } = usePortfolioContent();
 
   const renderLogo = (type: VentureItem['logoType']) => {
     switch (type) {
@@ -59,7 +61,7 @@ export const VenturesSection: React.FC<VenturesSectionProps> = ({
 
         {/* 3 Ventures Grid (Cards remain black as requested) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {VENTURES_DATA.map((venture) => (
+          {ventures.map((venture) => (
             <div
               key={venture.id}
               onClick={() => onSelectVenture(venture)}
