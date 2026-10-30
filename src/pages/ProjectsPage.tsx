@@ -33,8 +33,8 @@ export default function ProjectsPage() {
           {PROJECTS_DATA.map((project, index) => (
             <article key={project.id} className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-start rounded-3xl border border-cyan-950/70 bg-[#050b18] p-5 sm:p-7">
               <div className="lg:col-span-7">
-                <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900">
-                  <img src={project.image} alt={project.name} className="w-full aspect-[16/9] object-cover object-top" />
+                <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 aspect-[16/9]">
+                  {project.image ? <img src={project.image} alt={project.name} className="w-full h-full object-cover object-top" /> : <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#071a30] to-[#030b18]"><Layers3 className="w-12 h-12 text-cyan-500/60"/></div>}
                   <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#030712]/85 border border-cyan-500/30 text-[10px] uppercase tracking-wider text-cyan-300">{project.status || 'Project'}</div>
                 </div>
               </div>
@@ -50,6 +50,7 @@ export default function ProjectsPage() {
                 </div>
                 {project.techStack && <div><div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-cyan-400 mb-2"><Code2 className="w-3.5 h-3.5" /> Technologies / areas</div><div className="flex flex-wrap gap-2">{project.techStack.map(t => <span key={t} className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300">{t}</span>)}</div></div>}
                 {project.notes && <p className="text-xs text-slate-500 leading-relaxed border-l-2 border-cyan-900 pl-3">{project.notes}</p>}
+                {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-400 hover:text-cyan-300">Open live project <ArrowUpRight className="w-3.5 h-3.5"/></a>}
               </div>
             </article>
           ))}
