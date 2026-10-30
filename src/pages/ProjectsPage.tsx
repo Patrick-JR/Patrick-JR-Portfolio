@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUpRight, Code2, Eye, Layers3 } from 'lucide-react';
-import { PROJECTS_DATA } from '../data/portfolioData';
+import { usePortfolioContent } from '../data/portfolioStore';
 import { PageShell, PageSection, PageButton } from '../components/PageShell';
 
 const extraProjects = [
@@ -21,6 +21,7 @@ const extraProjects = [
 ];
 
 export default function ProjectsPage() {
+  const { projects } = usePortfolioContent();
   return (
     <PageShell
       kicker="// PROJECTS"
